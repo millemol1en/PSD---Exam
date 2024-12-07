@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("PSD")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa271e4a1efd94864968b47b71b70d49aba7ce0a")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5b1838bb161cc77de75e80f72815439068e199b")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("PSD")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("PSD")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
