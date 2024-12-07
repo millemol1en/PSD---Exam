@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "LzkS59PNMn6SpwD7dWUgQKDqyVKz4DcJAezSSfPR0XVUHuDd3fLOjnHvDxTAxCTVFU/al18w/pulGzei4xRWgg==",
+  "success": true,
+  "projectFilePath": "/Users/hans/Desktop/ITU/Semester 5/Programmer som data/Code/PSD---Exam/HelloLex/hello.fsproj",
+  "expectedPackageFiles": [
+    "/Users/hans/.nuget/packages/fsharp.core/8.0.200/fsharp.core.8.0.200.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,33 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PSD", "PSD.fsproj", "{5F197DD0-8FED-4A8D-8080-3A81123E9B85}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DE2E7FB-61F0-4DC8-BDBF-795411BBBF8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE2E7FB-61F0-4DC8-BDBF-795411BBBF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE2E7FB-61F0-4DC8-BDBF-795411BBBF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE2E7FB-61F0-4DC8-BDBF-795411BBBF8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{259AB0D5-4D4F-4974-ACA1-04FD3A1E03E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{259AB0D5-4D4F-4974-ACA1-04FD3A1E03E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{259AB0D5-4D4F-4974-ACA1-04FD3A1E03E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{259AB0D5-4D4F-4974-ACA1-04FD3A1E03E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{505D9695-4C4A-43FF-89C6-1B302623CAB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{505D9695-4C4A-43FF-89C6-1B302623CAB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{505D9695-4C4A-43FF-89C6-1B302623CAB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{505D9695-4C4A-43FF-89C6-1B302623CAB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
