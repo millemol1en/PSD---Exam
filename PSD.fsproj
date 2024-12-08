@@ -4,54 +4,54 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
-    
-      <ItemGroup>
-        <Compile Include="./MicroML/Absyn.fs" />
-        <Compile Include="./MicroML/Util.fs" />
-        <Content Include="./MicroML/FunLex.fs" />
-        <Content Include="./MicroML/FunPar.fs" />
-        <Compile Include="./MicroML/HigherFun.fs" />
-        <Compile Include="./MicroML/Parse.fs" />
-        <Compile Include="./MicroML/ParseAndRunHigher.fs" />
-        <Compile Include="./MicroML/TypeInference.fs" />
-        <Compile Include="./MicroML/ParseAndType.fs" />
-        <Compile Include="./MicroML/TypedFun.fs" />
-      </ItemGroup>
 
-<!--        <ItemGroup>-->
-<!--          <Compile Include="./MicroC/Absyn.fs" />-->
-<!--          <Compile Include="./MicroC/Util.fs" />-->
-<!--          <Compile Include="./MicroC/Machine.fs" />-->
-<!--          <Compile Include="./MicroC/Comp.fs" />-->
-<!--          <Compile Include="./MicroC/Contcomp.fs" />-->
-<!--          <Compile Include="./MicroC/CPar.fs" />-->
-<!--          <Compile Include="./MicroC/CLex.fs" />-->
-<!--          <Compile Include="./MicroC/Interp.fs" />-->
-<!--          <Compile Include="./MicroC/Parse.fs" />-->
-<!--          <Compile Include="./MicroC/ParseAndComp.fs" />-->
-<!--          <Compile Include="./MicroC/ParseAndContcomp.fs" />-->
-<!--          <Compile Include="./MicroC/ParseAndRun.fs" />-->
-<!--        </ItemGroup>-->
-
-<!--    <ItemGroup>-->
-<!--        <Compile Include="./ListC/Util.fs" />-->
-<!--        <Compile Include="./ListC/Absyn.fs" />-->
-<!--        <Compile Include="./ListC/CPar.fs" />-->
-<!--        <Compile Include="./ListC/CLex.fs" />-->
-<!--        <Compile Include="./ListC/Parse.fs" />-->
-<!--        <Compile Include="./ListC/Machine.fs" />-->
-<!--        <Compile Include="./ListC/Comp.fs" />-->
-<!--        <Compile Include="./ListC/ListCC.fs" />-->
-<!--    </ItemGroup>-->
-
-<!--    <ItemGroup>-->
-<!--        <Compile Include="./Icon/Contfun.fs" />-->
-<!--        <Compile Include="./Icon/Contimp.fs" />-->
-<!--        <Compile Include="./Icon/Icon.fs" />-->
-<!--    </ItemGroup>-->
+    <!--      <ItemGroup>-->
+    <!--        <Compile Include="./MicroML/Absyn.fs" />-->
+    <!--        <Compile Include="./MicroML/Util.fs" />-->
+    <!--        <Content Include="./MicroML/FunLex.fs" />-->
+    <!--        <Content Include="./MicroML/FunPar.fs" />-->
+    <!--        <Compile Include="./MicroML/HigherFun.fs" />-->
+    <!--        <Compile Include="./MicroML/Parse.fs" />-->
+    <!--        <Compile Include="./MicroML/ParseAndRunHigher.fs" />-->
+    <!--        <Compile Include="./MicroML/TypeInference.fs" />-->
+    <!--        <Compile Include="./MicroML/ParseAndType.fs" />-->
+    <!--        <Compile Include="./MicroML/TypedFun.fs" />-->
+    <!--      </ItemGroup>-->
 
     <ItemGroup>
-        <Reference Include="./fsharp/FsLexYacc.Runtime.11.3.0/lib/netstandard2.0/FsLexYacc.Runtime.dll" />
+        <Compile Include="./MicroC/Absyn.fs"/>
+        <Compile Include="./MicroC/Util.fs"/>
+        <Compile Include="./MicroC/Machine.fs"/>
+        <Compile Include="./MicroC/Comp.fs"/>
+        <Compile Include="./MicroC/Contcomp.fs"/>
+        <Compile Include="./MicroC/CPar.fs"/>
+        <Compile Include="./MicroC/CLex.fs"/>
+        <Compile Include="./MicroC/Interp.fs"/>
+        <Compile Include="./MicroC/Parse.fs"/>
+        <Compile Include="./MicroC/ParseAndComp.fs"/>
+        <Compile Include="./MicroC/ParseAndContcomp.fs"/>
+        <Compile Include="./MicroC/ParseAndRun.fs"/>
+    </ItemGroup>
+
+    <!--    <ItemGroup>-->
+    <!--        <Compile Include="./ListC/Util.fs" />-->
+    <!--        <Compile Include="./ListC/Absyn.fs" />-->
+    <!--        <Compile Include="./ListC/CPar.fs" />-->
+    <!--        <Compile Include="./ListC/CLex.fs" />-->
+    <!--        <Compile Include="./ListC/Parse.fs" />-->
+    <!--        <Compile Include="./ListC/Machine.fs" />-->
+    <!--        <Compile Include="./ListC/Comp.fs" />-->
+    <!--        <Compile Include="./ListC/ListCC.fs" />-->
+    <!--    </ItemGroup>-->
+
+    <!--    <ItemGroup>-->
+    <!--        <Compile Include="./Icon/Contfun.fs" />-->
+    <!--        <Compile Include="./Icon/Contimp.fs" />-->
+    <!--        <Compile Include="./Icon/Icon.fs" />-->
+    <!--    </ItemGroup>-->
+
+    <ItemGroup>
+        <Reference Include="./fsharp/FsLexYacc.Runtime.11.3.0/lib/netstandard2.0/FsLexYacc.Runtime.dll"/>
     </ItemGroup>
 
 </Project>

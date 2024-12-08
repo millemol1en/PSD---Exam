@@ -6,10 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="hellolex.fs" />
+        <Compile Include="hellolex.fs"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="../fsharp/FsLexYacc.Runtime.11.3.0/lib/netstandard2.0/FsLexYacc.Runtime.dll" />
+        <Reference Include="../fsharp/FsLexYacc.Runtime.11.3.0/lib/netstandard2.0/FsLexYacc.Runtime.dll"/>
     </ItemGroup>
 </Project>
