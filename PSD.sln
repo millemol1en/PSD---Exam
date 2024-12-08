@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PSD", "PSD.fsproj", "{5F197DD0-8FED-4A8D-8080-3A81123E9B85}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "microsmlc", "MicroSML\microsmlc.fsproj", "{C667BF6E-71AB-4B74-823E-2290BEC761AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +31,9 @@ Global
 		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F197DD0-8FED-4A8D-8080-3A81123E9B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C667BF6E-71AB-4B74-823E-2290BEC761AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C667BF6E-71AB-4B74-823E-2290BEC761AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C667BF6E-71AB-4B74-823E-2290BEC761AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C667BF6E-71AB-4B74-823E-2290BEC761AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
