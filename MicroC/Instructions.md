@@ -8,7 +8,7 @@
     - `java Machine ex11.out 8`
     - Be careful! Some files don't take any input. The example above takes an input of `8`.
 3. Run the commands:
-    - `open commands.sh`
+    - `source commands.sh`
     - Look at the commands!
 4. Interactive Commands:
     - `open ParseAndComp;;`

@@ -1,5 +1,5 @@
-# BSWU BPRD 2022 Jan
-## Opgave 1 (20%): Micro–ML: Sets
+# BSWU BPRD 2018 Jan
+## Opgave 1 (20%): asdasd
 ### Opgave Beskrivelse:
 "_Opgaven er at udvide funktionssproget med mængder (eng. sets), således at vi kan evaluere udtryk der manipulerer med mængder, se eksempel `ex01` nedenfor:_"
 
