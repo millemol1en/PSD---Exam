@@ -337,18 +337,51 @@ int f(int n) {
 i funktionen `f`. Du skal opdele stakken i stack frames og angive base pointer og stack pointer._"
 
 #### Svar:
+From running the command `java Machinetrace ./exam.out` we get the following:
+
+```c++
+[ ]{0: LDARGS}
+[ ]{1: CALL 0 5}
+[ 4 -999 ]{5: INCSP 1}
+[ 4 -999 0 ]{7: GETBP}
+[ 4 -999 0 2 ]{8: CSTI 3}
+[ 4 -999 0 2 3 ]{10: STI}
+[ 4 -999 3 3 ]{11: INCSP -1}
+[ 4 -999 3 ]{13: GETBP}
+[ 4 -999 3 2 ]{14: LDI}
+[ 4 -999 3 3 ]{15: CALL 1 21}
+[ 4 -999 3 18 2 3 ]{21: INCSP 1}
+[ 4 -999 3 18 2 3 0 ]{23: GETBP}
+[ 4 -999 3 18 2 3 0 5 ]{24: CSTI 1}
+[ 4 -999 3 18 2 3 0 5 1 ]{26: ADD}
+[ 4 -999 3 18 2 3 0 6 ]{27: CSTI 42}
+[ 4 -999 3 18 2 3 0 6 42 ]{29: STI}
+[ 4 -999 3 18 2 3 42 42 ]{30: INCSP -1}
+[ 4 -999 3 18 2 3 42 ]{32: GETBP}           // AREA OF INTEREST
+[ 4 -999 3 18 2 3 42 5 ]{33: LDI}
+[ 4 -999 3 18 2 3 42 3 ]{34: GETBP}
+[ 4 -999 3 18 2 3 42 3 5 ]{35: CSTI 1}
+[ 4 -999 3 18 2 3 42 3 5 1 ]{37: ADD}
+[ 4 -999 3 18 2 3 42 3 6 ]{38: LDI}
+[ 4 -999 3 18 2 3 42 3 42 ]{39: ADD}
+[ 4 -999 3 18 2 3 42 45 ]{40: RET 2}
+[ 4 -999 3 45 ]{18: PRINTI}
+45 [ 4 -999 3 45 ]{19: RET 1}
+[ 45 ]{4: STOP}
+```
+
+We can take a particular snippet ...
 
 ```text
 _____________________
-|                   |
-|                   |           |
-|                   |           |
-|                   |           |
-|  Addr of PRINTI   |
+|        42         |   <-- value of "i" in function f()        
+|         3         |   <-- value of "n"       
+|         2         |   <-- Old BP for address of "i" from main (value of 2)        
+|        18         |   <-- Addr of print i
 _____________________
-|      3 (i)        |   <-- BP  |
-|      -999         |           |> Main stack frame
-|        4          |           |
+|      3 (i)        |   <-- BP   
+|      -999         |   <-- Old BP        
+|        4          |   <-- Addr to STOP        
 _____________________
 ```
 
@@ -356,36 +389,36 @@ _____________________
 "_Micro–C oversætteren Contcomp.fs fra kapitel 12 i PLC genererer følgende bytekode for programmet ovenfor_"
 
 ```fsharp
-LDARGS;         // Load commandline arguments - there are none
-CALL (0,"L1")   // Call Main with 0 arguments.
-STOP            // Return from Main and end program.
-Label "L1"      // Label for Main
-INCSP 1         // Make room for 'i' on the stack 
-GETBP           // Get Base Pointer, which is the address of 'i'
-CSTI 3          // Place a constant 3 on top of the stack
-STI             // Set the value of 'i' to this constant 3
-INCSP -1        // Remove 3 from the stack (it is kept in storage at the address of 'i')
-GETBP           // Get Base Pointer again, this is still address of 'i'
-LDI             // We load the value at the address - giving us 3
-CALL (1,"L2")   // We call the function at label 2 - in this case it is "f"
-PRINTI          // We print the subsequent value returned by the function "f"
-RET 1           // We return from the function "main" - the "1" indicates the number of local variables to remove.
-Label "L2"      // The label for function "f".
-INCSP 1         // Make space to place variable 'i' onto the stack.
-GETBP           // Get the Base Pointer (it still points to the 'i' from "main").
-CSTI 1          // Place a constant of 1 on the stack.
-ADD             // Add them together to then have the Base Pointer be BP + 1 - this will add the new locally defined 'i' (in function "f") to be on the top of the stack.
-CSTI 42         // Load a constant value of 42 onto the top of the stack.
-STI             // Store the value of 42 onto the address (42 is on top of the stack and right under is addr of BP + 1).
-INCSP -1        // We decrement the stack pointer, removing the constant 42.
-GETBP           // We get the BP, in this case it points to the original variable 'i' from "main" which now is represented by the argument 'n'.
-LDI             // We load the value, placing it ontop of the stack
-GETBP           // We get the BP
-CSTI 1          // Place a constant of 1 ontop of the stack
-ADD             // Add them together to get BP + 1
-LDI             // Load that value onto the top of the stack
-ADD             // And subsequently add the 2 values 'i' and 'n' together
-RET 2           // We return from function "f", removing variables 'i' and 'n'.
+LDARGS;             // Load commandline arguments - there are none
+CALL (0,"L1")       // Call Main with 0 arguments.
+STOP                // Return from Main and end program.
+Label "L1"          // Label for Main
+INCSP 1             // Make room for "i"
+GETBP               // Retrieve BP which retrieves the address for "i" (the IDX position)
+CSTI 3              // Add a constant of 3 on the stack
+STI                 // Store it in the address previously received
+INCSP -1            // Decrement stack - popping the value off the stack
+GETBP               // Get the BP again - the address of "i"
+LDI                 // Load the value of "i"
+CALL (1,"L2")       // Call function L2 - the 1 indicates the address of "i"
+PRINTI              // Call Printi
+RET 1               // Return 1 variable 
+Label "L2"          // Label for f()
+INCSP 1             // Make room for the new local "i"
+GETBP               // Get BP which is the address of addr "n" - which is the address of mains "i"
+CSTI 1              // Add constant of 1 to stack
+ADD                 // We now add the 2 values on the stack together and point to "i"
+CSTI 42             // Place a constant of 42 on the stack
+STI                 // Place 42 into the address of "i"
+INCSP -1            // Pop the constant of 42 off the stack
+GETBP               // Get BP which is the address of "n"
+LDI                 // Load the value at "n" - which is 3
+GETBP               // Get BP which is the address of "n"
+CSTI 1              // Place 1 on the stack
+ADD                 // We now add the 2 values on the stack together and point to "i" 
+LDI                 // Load the value at "i" - which is 42
+ADD                 // Add them together - so 42 + 3
+RET 2               // Return to main - 2 indicates we remove "n" and "i" from the stack
 ```
 
 ### Question 3:
