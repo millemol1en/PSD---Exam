@@ -18,6 +18,7 @@
     <Compile Include="ParseTypeAndRun.fs" />
     <Compile Include="MicroSMLC.fs" />    
     <Content Include="Instructions.md" />    
+    <Content Include="commands.sh" />    
   </ItemGroup>
 
   <ItemGroup>
