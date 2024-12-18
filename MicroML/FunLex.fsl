@@ -31,6 +31,7 @@ let keyword s =
     | "not"   -> NOT
     | "then"  -> THEN
     | "true"  -> CSTBOOL true
+    | "nth"   -> NTH     (* Exam *)
     | "fun"   -> FUN    (* EXERCISE 6.3 *)
     | _       -> NAME s
 }
@@ -58,6 +59,7 @@ rule Token = parse
   | '('             { LPAR }
   | ')'             { RPAR }
   | eof             { EOF }
+  | ','             {COMMA}
   | "->"            { LAMBDA }  (* EXERCISE 6.3 *)
   | _               { failwith "Lexer error: illegal symbol" }
 

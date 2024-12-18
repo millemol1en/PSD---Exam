@@ -18,6 +18,8 @@
 %token LAMBDA
 %token FUN
 
+%token NTH COMMA    /* Exam */
+
 %left ELSE              /* lowest precedence  */
 %left EQ NE 
 %right LAMBDA           
@@ -52,6 +54,8 @@ Expr:
   | Expr LT    Expr                     { Prim("<",  $1, $3)     }
   | Expr GE    Expr                     { Prim(">=", $1, $3)     }
   | Expr LE    Expr                     { Prim("<=", $1, $3)     }
+  | NTH LPAR Expr COMMA Expr RPAR       { Prim("nth", $3, $5)    }
+  | LET NAME EQ RPAR Exprs LPAR         { Tup( $5 )              }
   | FUN NAME LAMBDA Expr                { Fun($2, $4)            }  // Exercise 6.3
 ;
 
@@ -67,6 +71,17 @@ AppExpr:
     AtExpr AtExpr                       { Call($1, $2)           }
   | AppExpr AtExpr                      { Call($1, $2)           }
 ;
+
+Exprs:
+    /* empty */                         { []       }
+  | Exprs1                              { $1       }
+;
+
+Exprs1:
+    Expr                                { [$1]     }
+  | Expr COMMA Exprs1                   { $1 :: $3 }
+;
+
 
 Const:
     CSTINT                              { CstI($1)               }

@@ -24,149 +24,165 @@ module Icon
 
 (* Micro-Icon abstract syntax *)
 
-type expr = 
-  | CstI of int
-  | CstS of string
-  | FromTo of int * int
-  | Write of expr
-  | If of expr * expr * expr
-  | Prim of string * expr * expr
-  | Prim1 of string * expr
-  | And of expr * expr
-  | Or  of expr * expr
-  | Seq of expr * expr
-  | Every of expr 
-  | Fail;;
+type expr =
+    | CstI of int
+    | CstS of string
+    | FromTo of int * int
+    | FromList of int list
+    | FromMergeList of int list * int list
+    | Write of expr
+    | If of expr * expr * expr
+    | Prim of string * expr * expr
+    | Prim1 of string * expr
+    | And of expr * expr
+    | Or of expr * expr
+    | Seq of expr * expr
+    | Every of expr
+    | Fail
 
 (* Runtime values and runtime continuations *)
 
-type value = 
-  | Int of int
-  | Str of string;;
+type value =
+    | Int of int
+    | Str of string
 
-type econt = unit -> value;;
+type econt = unit -> value
 
-type cont = value -> econt -> value;;
+type cont = value -> econt -> value
 
 (* Print to console *)
 
 let write v =
-    match v with 
+    match v with
     | Int i -> printf "%d " i
-    | Str s -> printf "%s " s;;
+    | Str s -> printf "%s " s
 
 (* Expression evaluation with backtracking *)
 
-let rec eval (e : expr) (cont : cont) (econt : econt) = 
+let rec eval (e: expr) (cont: cont) (econt: econt) =
     match e with
     | CstI i -> cont (Int i) econt
-    | CstS s  -> cont (Str s) econt
-    | FromTo(i1, i2) -> 
-      let rec loop i = 
-          if i <= i2 then 
-              cont (Int i) (fun () -> loop (i+1))
-          else 
-              econt ()
-      loop i1
-    | Write e -> 
-      eval e (fun v -> fun econt1 -> (write v; cont v econt1)) econt
-    | If(e1, e2, e3) -> 
-      eval e1 (fun _ -> fun _ -> eval e2 cont econt)
-              (fun () -> eval e3 cont econt)
-    | Prim(ope, e1, e2) -> 
-      eval e1 (fun v1 -> fun econt1 ->
-          eval e2 (fun v2 -> fun econt2 -> 
-              match (ope, v1, v2) with
-              | ("+", Int i1, Int i2) -> 
-                  cont (Int(i1+i2)) econt2 
-              | ("*", Int i1, Int i2) -> 
-                  cont (Int(i1*i2)) econt2
-              | ("<", Int i1, Int i2) -> 
-                  if i1<i2 then 
-                      cont (Int i2) econt2
-                  else
-                      econt2 ()
-              | _ -> Str "unknown prim2")
-              econt1
-          )
-          econt
-    | Prim1 (ope, e) ->
-      eval e (fun v -> fun econt1 ->
-            match (ope, v) with
-            | ("sqr", Int i1) ->
-                cont (Int(i1+i1)) econt1
-            | ("even", Int i1) ->
-                // Like above, we add the possibility of backtracking with the use of continuation...
-                if i1 % 2 = 0 then 
-                    cont (Int i1) econt1
-                else
-                    econt1 ()
-            | ("multiplies", Int i1) ->
-                let rec infMult m =
-                    let res = i1 * m
-                    cont (Int res) (fun () -> infMult (res))    // From my understanding, we by-pass the normal backtracking by using the "fun ()" instead of econt1 as we do in all other examples above?
-                infMult i1
-            | ("!", Int i1) ->
-                cont (Int(-i1)) econt1
-            | _ -> Str "unknown prim1"
-          )
-          econt
-    | And(e1, e2) -> 
-      eval e1 (fun _ -> fun econt1 -> eval e2 cont econt1) econt
-    | Or(e1, e2) -> 
-      eval e1 cont (fun () -> eval e2 cont econt)
-    | Seq(e1, e2) -> 
-      eval e1 (fun _ -> fun econt1 -> eval e2 cont econt)
-              (fun () -> eval e2 cont econt)
-    | Every e -> 
-      eval e (fun _ -> fun econt1 -> econt1 ())
-             (fun () -> cont (Int 0) econt)
+    | CstS s -> cont (Str s) econt
+    | FromTo(i1, i2) ->
+        let rec loop i =
+            if i <= i2 then
+                cont (Int i) (fun () -> loop (i + 1))
+            else
+                econt ()
+
+        loop i1
+    | FromList(input) -> (*Exam*)
+        let rec loop x = (*Exam*)
+            match x with (*Exam*)
+            | [] -> econt () (*Exam*)
+            | zs :: z -> cont (Int zs) (fun () -> loop z) (*Exam*)
+
+        loop input (*Exam*)
+
+    // | FromMergeList(xs1, ys1) ->
+    //     let rec loop xs ys =
+    //       function
+    //       |[] -> econt
+    //       | x :: xs ->
+    //         match ys with
+    //         | [] -> econt()
+
+    //         | y :: ys -> if (xs.Length < ys.Length) then
+    //         cont (Int y) else cont (Int x)
+    //     loop xs1 ys1
+    | Write e ->
+        eval
+            e
+            (fun v ->
+                fun econt1 ->
+                    (write v
+                     cont v econt1))
+            econt
+    | If(e1, e2, e3) -> eval e1 (fun _ -> fun _ -> eval e2 cont econt) (fun () -> eval e3 cont econt)
+    | Prim(ope, e1, e2) ->
+        eval
+            e1
+            (fun v1 ->
+                fun econt1 ->
+                    eval
+                        e2
+                        (fun v2 ->
+                            fun econt2 ->
+                                match (ope, v1, v2) with
+                                | ("+", Int i1, Int i2) -> cont (Int(i1 + i2)) econt2
+                                | ("*", Int i1, Int i2) -> cont (Int(i1 * i2)) econt2
+                                | ("<", Int i1, Int i2) -> if i1 < i2 then cont (Int i2) econt2 else econt2 ()
+                                | _ -> Str "unknown prim2")
+                        econt1)
+            econt
+    | Prim1(ope, e) ->
+        eval
+            e
+            (fun v ->
+                fun econt1 ->
+                    match (ope, v) with
+                    | ("sqr", Int i1) -> cont (Int(i1 + i1)) econt1
+                    | ("even", Int i1) ->
+                        // Like above, we add the possibility of backtracking with the use of continuation...
+                        if i1 % 2 = 0 then cont (Int i1) econt1 else econt1 ()
+                    | ("multiplies", Int i1) ->
+                        let rec infMult m =
+                            let res = i1 * m
+                            cont (Int res) (fun () -> infMult (res)) // From my understanding, we by-pass the normal backtracking by using the "fun ()" instead of econt1 as we do in all other examples above?
+
+                        infMult i1
+                    | ("!", Int i1) -> cont (Int(-i1)) econt1
+                    | _ -> Str "unknown prim1")
+            econt
+    | And(e1, e2) -> eval e1 (fun _ -> fun econt1 -> eval e2 cont econt1) econt
+    | Or(e1, e2) -> eval e1 cont (fun () -> eval e2 cont econt)
+    | Seq(e1, e2) -> eval e1 (fun _ -> fun econt1 -> eval e2 cont econt) (fun () -> eval e2 cont econt)
+    | Every e -> eval e (fun _ -> fun econt1 -> econt1 ()) (fun () -> cont (Int 0) econt)
     | Fail -> econt ()
 
-let run e = eval e (fun v -> fun _ -> v) (fun () -> (printfn "Failed"; Int 0));
+let run e =
+    eval e (fun v -> fun _ -> v) (fun () ->
+        (printfn "Failed"
+         Int 0))
 
 
 (* Examples in abstract syntax *)
 
 // (write(1 to 3)) ; fail
-let ex1 = Seq(Write (FromTo(1, 3)), Fail);
+let ex1 = Seq(Write(FromTo(1, 3)), Fail)
 
 // (write(1 to 3)) & fail
-let ex2 = And(Write (FromTo(1, 3)), Fail);
+let ex2 = And(Write(FromTo(1, 3)), Fail)
 
 // (write((1 to 3) & (4 to 6))) & fail
-let ex3and = And(Write(And(FromTo(1, 3), FromTo(4, 6))), Fail);
+let ex3and = And(Write(And(FromTo(1, 3), FromTo(4, 6))), Fail)
 
 // (write((1 to 3) | (4 to 6))) & fail
-let ex3or  = And(Write(Or(FromTo(1, 3), FromTo(4, 6))), Fail);
+let ex3or = And(Write(Or(FromTo(1, 3), FromTo(4, 6))), Fail)
 
 // (write((1 to 3) ; (4 to 6))) & fail
-let ex3seq = And(Write(Seq(FromTo(1, 3), FromTo(4, 6))), Fail);
+let ex3seq = And(Write(Seq(FromTo(1, 3), FromTo(4, 6))), Fail)
 
 // write((1 to 3) & ((4 to 6) & "found"))
-let ex4 = Write(And(FromTo(1, 3), And(FromTo(4, 6), CstS "found")));
+let ex4 = Write(And(FromTo(1, 3), And(FromTo(4, 6), CstS "found")))
 
 // every(write(1 to 3))
-let ex5 = Every (Write (FromTo(1, 3)));
+let ex5 = Every(Write(FromTo(1, 3)))
 
 // (every(write(1 to 3)) & (4 to 6))
-let ex6 = And(Every (Write (FromTo(1, 3))), FromTo(4, 6));
+let ex6 = And(Every(Write(FromTo(1, 3))), FromTo(4, 6))
 
 // every(write((1 to 3) + (4 to 6)))
-let ex7 = Every(Write(Prim("+", FromTo(1,3), FromTo(4, 6))));
+let ex7 = Every(Write(Prim("+", FromTo(1, 3), FromTo(4, 6))))
 
 // write(4 < (1 to 10))
-let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
+let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)))
 
 // every(write(4 < (1 to 10)))
-let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
+let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))))
 
 // i_a
-let exi = Every(
-            Write(
-                Prim("+", CstI 1,
-                Prim("*", CstI 2,
-                     FromTo(1, 4)))));
+let exi = Every(Write(Prim("+", CstI 1, Prim("*", CstI 2, FromTo(1, 4)))))
 
 // i_b - 21 22 31 32 41 42. FUCK THIS!
 
@@ -180,3 +196,10 @@ let exiii_2 = Every(Write(Prim1("even", FromTo(1, 7))))
 
 let exiii_3 = Write(Prim1("sqr", CstI 10))
 
+let examEx1 = Write(FromTo(1, 10))
+
+let examEx2 = Every(Write(Prim("+", CstI 4, (FromTo(1, 10)))))
+
+let examEx3 = Every(Write(Or(FromTo(1, 5), FromTo(6, 10))))
+
+let examEx4 = Every(Write(Or(FromList[1..5], FromList[5..10])))

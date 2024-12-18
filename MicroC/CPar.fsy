@@ -21,6 +21,8 @@ let nl = CstI 10
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
 
+%token NUMCALLS NUMTCALLS
+
 %right ASSIGN             /* lowest precedence */
 %nonassoc PRINT
 %right QMARK COLON
@@ -143,6 +145,8 @@ ExprNotAccess:
   | Expr SEQOR  Expr                    { Orelse($1, $3)      }
   | PREINC Access                       { PreInc($2)          }
   | PREDEC Access                       { PreDec($2)          }
+  | NUMCALLS                            { Prim0("numCalls")  }  /* Exam */
+  | NUMTCALLS                           { Prim0 ("numTCalls")}  /* Exam */
   | Expr QMARK Expr COLON Expr          { Cond($1, $3, $5)    }
 ;
 
